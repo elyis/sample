@@ -72,6 +72,11 @@ class DAOFacadeRole : DAOFacadeRoleImpl{
         val organizationId = daoFacadeOrganization.organization(organizationName)?.id ?: return@dbQuery false
         Roles.deleteWhere { (Roles.name eq name) and (organization_id eq organizationId) } > 0
     }
+
+    override suspend fun allRoles(organizationName: String): List<Role>  = dbQuery{
+        val organizationId = daoFacadeOrganization.organization(organizationName)?.id ?: return@dbQuery emptyList<Role>()
+        Roles.select { Roles.organization_id eq organizationId }.map(::resultRowToRole)
+    }
 }
 
 val daoFacadeRole = DAOFacadeRole()

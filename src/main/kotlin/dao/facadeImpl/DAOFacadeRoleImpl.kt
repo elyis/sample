@@ -8,4 +8,6 @@ interface DAOFacadeRoleImpl {
     suspend fun role(name: String, organizationName: String): Role?
     suspend fun addRole(role: RequestedRoleBody): Role?
     suspend fun rmRole(name: String, organizationName: String): Boolean
+
+    suspend fun allRoles(organizationName: String): List<Role>
 }
